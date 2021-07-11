@@ -1,7 +1,7 @@
-import { ExampleComponent } from '.'
+import { ChatBot } from '.'
 
 describe('ExampleComponent', () => {
   it('is truthy', () => {
-    expect(ExampleComponent).toBeTruthy()
+    expect(ChatBot).toBeTruthy()
   })
 })

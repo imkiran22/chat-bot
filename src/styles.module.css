@@ -1,9 +1,17 @@
-/* add css module styles here (optional) */
+#chatBotRoot {
+  display: flex;
+}
 
-.test {
-  margin: 2em;
-  padding: 0.5em;
-  border: 2px solid #000;
-  font-size: 2em;
-  text-align: center;
+.chatBotButton {
+  position: fixed;
+  right: 10%;
+  bottom: 8%;
+}
+
+.visible {
+  visibility: visible;
+}
+
+.hidden {
+  visibility: hidden;
 }

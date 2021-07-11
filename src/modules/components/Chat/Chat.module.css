@@ -1,0 +1,19 @@
+.chatBot {
+  min-height: 400px;
+  position: fixed;
+  width: 400px;
+  right: 1%;
+  bottom: 15%;
+  background: whitesmoke;
+  border: 1px solid #363636;
+  border-radius: 4px;
+  display: flex;
+  flex-flow: column;
+}
+
+.reset {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

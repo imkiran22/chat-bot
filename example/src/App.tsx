@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { ExampleComponent } from 'chat-bot'
+import { ChatBot } from 'chat-bot'
 import 'chat-bot/dist/index.css'
 
+const VERSION = 1
+
 const App = () => {
-  return <ExampleComponent text="Create React Library Example 😄" />
+  return <ChatBot version={VERSION} />
 }
 
 export default App

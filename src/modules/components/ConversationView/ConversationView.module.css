@@ -1,0 +1,49 @@
+.conversationWrapper {
+  padding: 10px;
+  font-size: 14px;
+  display: flex;
+  flex-basis: 75%;
+  color: #34282C;
+  font-weight: bold;
+  overflow: scroll;
+  flex-flow: column wrap;
+}
+
+.input {
+  width: 50%;
+  padding: 5px;
+  font-size: 14px;
+  line-height: 30px;
+}
+
+.listItem {
+  margin-bottom: 10px;
+  display: inline-flex;
+  flex-flow: column;
+  background: white;
+  padding: 5px 10px;
+  flex-basis: auto;
+  border-radius: 4px;
+  justify-content: center;
+  border: 1px solid #363636;
+}
+
+.labelListItem {
+  margin-bottom: 5px;
+}
+
+.buttonField {
+   display: inline-flex;
+   flex-flow: row;
+   justify-content: space-around;
+}
+
+.ratingComponent {
+  display: inline-flex;
+  margin-right: 3px;
+}
+
+.buttonRating {
+  flex-basis: 100%;
+  margin: 2px;
+}
