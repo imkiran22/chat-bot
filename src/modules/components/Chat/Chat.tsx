@@ -76,7 +76,11 @@ const Chat: React.FC<{
   }, [])
 
   return (
-    <div id={'chat-bot'} className={styles.chatBot + ' ' + className}>
+    <div
+      data-testid='chatWidget'
+      id={'chat-bot'}
+      className={styles.chatBot + ' ' + className}
+    >
       <ChatContext.Provider value={{ view, setView }}>
         {children}
         {view === 'LIST' ? (

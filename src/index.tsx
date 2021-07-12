@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import styles from './styles.module.css'
 import Chat from './modules/components/Chat/Chat'
 import { Button } from './shared/components/Button/Button'
@@ -33,7 +33,7 @@ const App = ({ version }: Props) => {
 
   return (
     <Provider store={store}>
-      <div id={styles.chatBotRoot} data-version={version}>
+      <div id={styles.chatBotRoot} data-version={version} data-testid={version}>
         <Chat
           showWidget={showWidget}
           className={showWidget ? styles.visible : styles.hidden}
@@ -45,6 +45,7 @@ const App = ({ version }: Props) => {
         <Button
           className={styles.chatBotButton}
           onClick={onClick}
+          id={'chatWidgetIcon'}
           text={
             user.popupMessage?.message.replace(/<\/?[^>]+(>|$)/g, '') ||
             'Chat Widget'
@@ -55,10 +56,14 @@ const App = ({ version }: Props) => {
   )
 }
 
+const Loader = () => <span>Loading...</span>
+
 export const ChatBot = ({ version }: Props) => {
   return (
     <Provider store={store}>
-      <App version={version} />
+      <Suspense fallback={<Loader />}>
+        <App version={version} data-testid={version} />
+      </Suspense>
     </Provider>
   )
 }

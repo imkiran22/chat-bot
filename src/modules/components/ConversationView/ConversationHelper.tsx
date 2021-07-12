@@ -73,6 +73,7 @@ const Input: React.FC<{
   }
   return (
     <input
+      data-testid={text}
       style={{ outline: error ? '1px solid red' : 'none' }}
       value={state}
       className={styles.input}

@@ -21,6 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       id={id}
+      data-testid={id}
       className={styles.button + ' ' + className + ' ' + styles[theme]}
       onClick={onClick}
     >

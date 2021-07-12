@@ -67,35 +67,37 @@ export const ConversationView: React.FC<{
   let inputData = { ...InputField[sequence] }
 
   const sendToPusher = (ev: { [key: string]: any }, feedback = {}) => {
-    let triggered = pusherInstance
-      .channel(user.channelId)
-      .trigger(WIDGET_MESSAGE_EVENT, {
-        channelName: user.channelId,
-        feedback,
-        message: {
-          type: ev.type,
-          lastMessageTimeStamp: Date.now()
-        },
-        display: {
-          channelId: user.channelId,
-          name: 'InsentBot',
-          time: Date.now(),
-          input: {
-            disabled: true,
-            key: ev.type,
-            text: ev.text,
+    if (pusherInstance?.channel?.trigger) {
+      let triggered = pusherInstance
+        .channel(user.channelId)
+        .trigger(WIDGET_MESSAGE_EVENT, {
+          channelName: user.channelId,
+          feedback,
+          message: {
             type: ev.type,
-            value: ev.value
-          }
-        },
-        senderId: user.user.id
-      })
+            lastMessageTimeStamp: Date.now()
+          },
+          display: {
+            channelId: user.channelId,
+            name: 'InsentBot',
+            time: Date.now(),
+            input: {
+              disabled: true,
+              key: ev.type,
+              text: ev.text,
+              type: ev.type,
+              value: ev.value
+            }
+          },
+          senderId: user.user?.id
+        })
+      console.info('SENT MESSAGE TO PUSHER', triggered)
+    }
     const message = {
       label: ev.text,
       text: ev.value,
       type: ev.type
     }
-    console.info('SENT MESSAGE TO PUSHER', triggered)
     setMessages(messages.concat([message]))
     setSequence(sequence + 1)
   }
@@ -115,7 +117,10 @@ export const ConversationView: React.FC<{
   }
 
   return (
-    <div className={styles.conversationWrapper}>
+    <div
+      className={styles.conversationWrapper}
+      data-testid={'conversationView'}
+    >
       <List messages={messages} />
 
       {sequence >= 0 && sequence <= 2 && (
