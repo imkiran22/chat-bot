@@ -5,6 +5,7 @@ const BASE_URL = `https://insentrecruit.api.insent.ai/`
 
 export const usePusher = () => {
   const [pusherInstance, setPusherInstance] = useState(null as any)
+  const [channels, setChannels] = React.useState({} as any)
   /**
    * ESTABLISHES THE PUSHER CONNECTION
    */
@@ -33,13 +34,16 @@ export const usePusher = () => {
    */
   const connectUserToChannelId = (channelId: string) => {
     const channel = pusherInstance.subscribe(channelId)
+    channels[channelId] = channel
+    setChannels({ ...channels })
     console.log(`SUCCESS: CONNECTED TO CHANNEL ${channelId}`)
     return channel
   }
 
-  // useEffect(() => {
-  //   establishPusherConnection(user)
-  // }, [])
-
-  return { pusherInstance, establishPusherConnection, connectUserToChannelId }
+  return {
+    pusherInstance,
+    establishPusherConnection,
+    connectUserToChannelId,
+    channels
+  }
 }

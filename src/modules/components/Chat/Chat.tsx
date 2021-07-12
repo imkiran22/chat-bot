@@ -1,23 +1,35 @@
-import React, { useEffect, Fragment, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Chat.module.css'
-import { usePusher, useUser, useConversation } from '../../../hooks'
-import { ConversationView } from '../ConversationView/ConversationView'
-import { Button } from '../../../shared/components/Button/Button'
+import {
+  usePusher,
+  useUser,
+  useConversation,
+  useAppSelector
+} from '../../../hooks'
+import { ChatView } from './ChatView'
+import { ChatList } from './ChatList'
+import { selectConversation } from '../../../state/reducers/conversationReducer'
 
 const Chat: React.FC<{
   className: string
   showWidget: boolean
   children: React.ReactNode
 }> = ({ className, showWidget, children }) => {
-  const { pusherInstance, connectUserToChannelId, establishPusherConnection } =
-    usePusher()
+  const {
+    pusherInstance,
+    connectUserToChannelId,
+    establishPusherConnection,
+    channels
+  } = usePusher()
   const { user: userData, updateHeaders } = useUser()
   const {
     conversation = {},
     fetchConversationFromAPI,
-    reset
+    reset,
+    fetchChannelsFromAPI
   } = useConversation()
   const [sequence, setSequence] = useState({ number: 0 })
+  const conversationData = useAppSelector(selectConversation)
 
   const callback = (eventName: string, data: any) => {
     console.log(
@@ -27,9 +39,12 @@ const Chat: React.FC<{
     )
   }
 
+  console.log(channels, conversationData.channels)
+
   useEffect(() => {
     if (showWidget) {
       fetchConversationFromAPI(userData.channelId)
+      fetchChannelsFromAPI()
     }
   }, [showWidget])
 
@@ -59,22 +74,12 @@ const Chat: React.FC<{
   return (
     <div id={'chat-bot'} className={styles.chatBot + ' ' + className}>
       {children}
-      {conversation.loading ? (
-        <span className={styles.loading}>Loading...</span>
+      {conversationData.channels.length > 0 ? (
+        <ChatList channels={conversationData.channels} />
       ) : (
-        <Fragment>
-          <ConversationView
-            currentSequence={sequence}
-            data={conversation.data}
-            pusherInstance={pusherInstance}
-          />
-          <Button
-            className={styles.reset}
-            theme='primary'
-            text={'Restart Conversation'}
-            onClick={restartConversation}
-          ></Button>
-        </Fragment>
+        <ChatView
+          {...{ conversation, sequence, pusherInstance, restartConversation }}
+        />
       )}
     </div>
   )

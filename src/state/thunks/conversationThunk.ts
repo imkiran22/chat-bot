@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import ConversationApi from '../api/ConversationApi'
 
 export const fetchConversation = createAsyncThunk(
-  'user/fetchUser',
+  'conversation/fetchUser',
   async (channelId: string) => {
     const response = await ConversationApi.fetchConversation(channelId)
     return response.data
@@ -10,9 +10,17 @@ export const fetchConversation = createAsyncThunk(
 )
 
 export const markDelivered = createAsyncThunk(
-  'user/conversation/markDelivered',
+  'conversation/markDelivered',
   async (channelId: string) => {
     const response = await ConversationApi.markDelivered(channelId)
+    return response.data
+  }
+)
+
+export const fetchChannels = createAsyncThunk(
+  'conversation/fetchChannels',
+  async () => {
+    const response = await ConversationApi.fetchChannels()
     return response.data
   }
 )

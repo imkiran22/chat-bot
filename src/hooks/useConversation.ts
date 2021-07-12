@@ -1,6 +1,9 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '.'
-import { fetchConversation } from '../state/thunks/conversationThunk'
+import {
+  fetchConversation,
+  fetchChannels
+} from '../state/thunks/conversationThunk'
 import {
   selectConversation,
   resetConversation
@@ -18,5 +21,9 @@ export const useConversation = () => {
     return dispatch(resetConversation())
   }, [])
 
-  return { reset, fetchConversationFromAPI, conversation }
+  const fetchChannelsFromAPI: any = React.useCallback(() => {
+    return dispatch(fetchChannels())
+  }, [])
+
+  return { reset, fetchConversationFromAPI, conversation, fetchChannelsFromAPI }
 }

@@ -28,3 +28,12 @@
   letter-spacing: 10px;
   padding: 5px;
 }
+
+.channelList {
+  display: flex;
+}
+
+.channelListItem {
+  display: inline-flex;
+  flex-flow: column nowrap;
+}

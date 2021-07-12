@@ -12,6 +12,11 @@ class ApiConversation {
     const url = `https://insentrecruit.api.insent.ai/user/channels/${channelId}/delivered`
     return await Axios.post(url, {})
   }
+
+  async fetchChannels() {
+    const url = 'https://insentrecruit.api.insent.ai/user/channels'
+    return await Axios.get(url)
+  }
 }
 
 const ConversationApi = Object.freeze(new ApiConversation())
