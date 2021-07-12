@@ -21,3 +21,5 @@ export const ChatList: React.FC<{ channels: any[]; openChannel: () => void }> =
       </div>
     )
   }
+  
+  export default ChatList

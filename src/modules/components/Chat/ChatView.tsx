@@ -34,3 +34,5 @@ export const ChatView: React.FC<{
     </Fragment>
   )
 }
+
+export default ChatView

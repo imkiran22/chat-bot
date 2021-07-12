@@ -6,10 +6,13 @@ import {
   useConversation,
   useAppSelector
 } from '../../../hooks'
-import { ChatView } from './ChatView'
-import { ChatList } from './ChatList'
+// import { ChatView } from './ChatView'
+// import { ChatList } from './ChatList'
 import { selectConversation } from '../../../state/reducers/conversationReducer'
 import { ChatContext } from './ChatContext'
+
+const ChatView = React.lazy(() => import('./ChatView'))
+const ChatList = React.lazy(() => import('./ChatList'))
 
 const Chat: React.FC<{
   className: string
