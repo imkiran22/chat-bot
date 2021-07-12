@@ -31,9 +31,19 @@
 
 .channelList {
   display: flex;
+  margin: 10px;
 }
 
 .channelListItem {
   display: inline-flex;
   flex-flow: column nowrap;
+  background: blue;
+  flex-basis: 100%;
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.channelListItem span {
+  padding-bottom: 5px;
 }

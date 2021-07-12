@@ -11,7 +11,23 @@ const conversationReducer = createSlice({
   initialState: {
     loading: false,
     data: {},
-    channels: [],
+    channels: [
+      {
+        msg: {
+          time: 1626076874,
+          text: 'First Name?'
+        },
+        members: [
+          {
+            name: 'InsentBot',
+            img: 'https://staging-uploads.insent.ai/insentrecruit/logo-insentrecruit?1622288999194',
+            isBot: true
+          }
+        ],
+        cid: 'private-EXlZAmSz5HgQsw1e016260775351201626077535393',
+        unread: false
+      }
+    ],
     markDelivered: false
   } as any,
   reducers: {

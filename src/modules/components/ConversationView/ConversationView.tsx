@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useUser } from '../../../hooks'
 import { Button } from '../../../shared/components/Button/Button'
+import { ChatContext } from '../Chat/ChatContext'
 import { Input, List, RatingComponent } from './ConversationHelper'
 import styles from './ConversationView.module.css'
 
@@ -57,6 +58,7 @@ export const ConversationView: React.FC<{
   const { user } = useUser()
   const [messages, setMessages] = React.useState(data.prevMessages || [])
   const [sequence, setSequence] = React.useState(currentSequence.number)
+  const { setView } = useContext(ChatContext)
 
   React.useEffect(() => {
     setSequence(currentSequence.number)
@@ -109,6 +111,7 @@ export const ConversationView: React.FC<{
       value: ev
     }
     sendToPusher({ text: `You gave ${ev} stars !!!` }, feedback)
+    setView('LIST')
   }
 
   return (

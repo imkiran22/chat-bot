@@ -9,6 +9,7 @@ import {
 import { ChatView } from './ChatView'
 import { ChatList } from './ChatList'
 import { selectConversation } from '../../../state/reducers/conversationReducer'
+import { ChatContext } from './ChatContext'
 
 const Chat: React.FC<{
   className: string
@@ -22,14 +23,11 @@ const Chat: React.FC<{
     channels
   } = usePusher()
   const { user: userData, updateHeaders } = useUser()
-  const {
-    conversation = {},
-    fetchConversationFromAPI,
-    reset,
-    fetchChannelsFromAPI
-  } = useConversation()
+  const [currentChannel, setCurrentChannel] = useState({ id: '' })
+  const { conversation = {}, reset } = useConversation()
   const [sequence, setSequence] = useState({ number: 0 })
   const conversationData = useAppSelector(selectConversation)
+  const [view, setView] = useState('LIST')
 
   const callback = (eventName: string, data: any) => {
     console.log(
@@ -39,12 +37,9 @@ const Chat: React.FC<{
     )
   }
 
-  console.log(channels, conversationData.channels)
-
   useEffect(() => {
     if (showWidget) {
-      fetchConversationFromAPI(userData.channelId)
-      fetchChannelsFromAPI()
+      console.info('SHOWING WIDGET', showWidget)
     }
   }, [showWidget])
 
@@ -71,16 +66,33 @@ const Chat: React.FC<{
     reset()
   }, [])
 
+  const openChannel = React.useCallback(() => {
+    const id = Object.keys(channels).pop() || ''
+    setView('ADD')
+    setCurrentChannel({ id })
+  }, [])
+
   return (
     <div id={'chat-bot'} className={styles.chatBot + ' ' + className}>
-      {children}
-      {conversationData.channels.length > 0 ? (
-        <ChatList channels={conversationData.channels} />
-      ) : (
-        <ChatView
-          {...{ conversation, sequence, pusherInstance, restartConversation }}
-        />
-      )}
+      <ChatContext.Provider value={{ view, setView }}>
+        {children}
+        {view === 'LIST' ? (
+          <ChatList
+            channels={conversationData.channels}
+            openChannel={openChannel}
+          />
+        ) : (
+          <ChatView
+            {...{
+              channel: currentChannel,
+              conversation,
+              sequence,
+              pusherInstance,
+              restartConversation
+            }}
+          />
+        )}
+      </ChatContext.Provider>
     </div>
   )
 }

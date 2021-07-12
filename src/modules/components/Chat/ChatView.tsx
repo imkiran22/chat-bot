@@ -1,14 +1,21 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import styles from './Chat.module.css'
 import { ConversationView } from '../ConversationView/ConversationView'
 import { Button } from '../../../shared/components/Button/Button'
+import { useConversation } from '../../../hooks'
 
 export const ChatView: React.FC<{
-  conversation: any
+  channel: any
   sequence: any
   pusherInstance: any
   restartConversation: () => void
-}> = ({ conversation, sequence, pusherInstance, restartConversation }) => {
+}> = ({ channel, sequence, pusherInstance, restartConversation }) => {
+  const { conversation = {}, fetchConversationFromAPI } = useConversation()
+
+  useEffect(() => {
+    fetchConversationFromAPI(channel.id)
+  }, [channel])
+
   return conversation.loading ? (
     <span className={styles.loading}>Loading...</span>
   ) : (
