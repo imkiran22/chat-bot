@@ -1,13 +1,14 @@
-import React, { useEffect, Fragment } from 'react'
+import React, { useEffect, Fragment, useState } from 'react'
 import styles from './Chat.module.css'
 import { usePusher, useUser, useConversation } from '../../../hooks'
 import { ConversationView } from '../ConversationView/ConversationView'
 import { Button } from '../../../shared/components/Button/Button'
 
-const Chat: React.FC<{ className: string; showWidget: boolean }> = ({
-  className,
-  showWidget
-}) => {
+const Chat: React.FC<{
+  className: string
+  showWidget: boolean
+  children: React.ReactNode
+}> = ({ className, showWidget, children }) => {
   const { pusherInstance, connectUserToChannelId, establishPusherConnection } =
     usePusher()
   const { user: userData, updateHeaders } = useUser()
@@ -16,6 +17,7 @@ const Chat: React.FC<{ className: string; showWidget: boolean }> = ({
     fetchConversationFromAPI,
     reset
   } = useConversation()
+  const [sequence, setSequence] = useState({ number: 0 })
 
   const callback = (eventName: string, data: any) => {
     console.log(
@@ -49,17 +51,20 @@ const Chat: React.FC<{ className: string; showWidget: boolean }> = ({
     }
   }, [pusherInstance, userData])
 
-  console.log(conversation)
-
-  const restartConversation = React.useCallback(() => reset(), [])
+  const restartConversation = React.useCallback(() => {
+    setSequence({ number: 0 })
+    reset()
+  }, [])
 
   return (
     <div id={'chat-bot'} className={styles.chatBot + ' ' + className}>
+      {children}
       {conversation.loading ? (
-        <span>Loading...</span>
+        <span className={styles.loading}>Loading...</span>
       ) : (
         <Fragment>
           <ConversationView
+            currentSequence={sequence}
             data={conversation.data}
             pusherInstance={pusherInstance}
           />

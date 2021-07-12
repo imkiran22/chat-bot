@@ -16,11 +16,3 @@ export const markDelivered = createAsyncThunk(
     return response.data
   }
 )
-
-export const resetConversation = createAsyncThunk(
-  'user/conversation/resetConversation',
-  async () => {
-    const response = await Promise.resolve({})
-    return response
-  }
-)

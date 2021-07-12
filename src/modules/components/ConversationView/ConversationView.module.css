@@ -6,7 +6,7 @@
   color: #34282C;
   font-weight: bold;
   overflow: scroll;
-  flex-flow: column wrap;
+  flex-flow: column nowrap;
 }
 
 .input {

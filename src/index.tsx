@@ -23,13 +23,25 @@ const App = ({ version }: Props) => {
     fetchUserFromAPI()
   }, [])
 
+  const closeWidget = React.useCallback(
+    (ev: React.MouseEvent<HTMLSpanElement>) => {
+      toggleWidget(false)
+      ev.stopPropagation()
+    },
+    []
+  )
+
   return (
     <Provider store={store}>
       <div id={styles.chatBotRoot} data-version={version}>
         <Chat
           showWidget={showWidget}
           className={showWidget ? styles.visible : styles.hidden}
-        />
+        >
+          <span className={styles.close} onClick={closeWidget}>
+            <img src='https://img.icons8.com/material-outlined/24/000000/close-window.png' />
+          </span>
+        </Chat>
         <Button
           className={styles.chatBotButton}
           onClick={onClick}

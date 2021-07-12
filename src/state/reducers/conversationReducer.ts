@@ -11,8 +11,7 @@ const conversationReducer = createSlice({
   } as any,
   reducers: {
     resetConversation: (state: any) => {
-      state.loading = true
-      state.data = {}
+      state.loading = false
     }
   },
   extraReducers: (builder) => {
@@ -28,16 +27,13 @@ const conversationReducer = createSlice({
       state.data = {}
     })
 
-    // builder.addCase(resetConversation as any, (state: any) => {
-    //   state.loading = true
-    //   state.data = {}
-    // })
-
     builder.addCase(markDelivered.fulfilled, (state: any) => {
       state.markDelivered = true
     })
   }
 })
+
+export const { resetConversation } = conversationReducer.actions
 
 export const selectConversation = (state: RootState) => state.conversation
 

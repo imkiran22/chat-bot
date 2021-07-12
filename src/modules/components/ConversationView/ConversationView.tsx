@@ -4,6 +4,8 @@ import { Button } from '../../../shared/components/Button/Button'
 import { Input, List, RatingComponent } from './ConversationHelper'
 import styles from './ConversationView.module.css'
 
+const WIDGET_MESSAGE_EVENT = 'client-widget-message'
+
 const InputField = [
   {
     disabled: true,
@@ -46,17 +48,26 @@ const ButtonField = [
 export const ConversationView: React.FC<{
   data: Record<string, any>
   pusherInstance: any
-}> = ({ data = { prevMessages: [], messages: [] }, pusherInstance }) => {
+  currentSequence: { number: number }
+}> = ({
+  data = { prevMessages: [], messages: [] },
+  pusherInstance,
+  currentSequence
+}) => {
   const { user } = useUser()
   const [messages, setMessages] = React.useState(data.prevMessages || [])
-  const [sequence, setSequence] = React.useState(0)
+  const [sequence, setSequence] = React.useState(currentSequence.number)
+
+  React.useEffect(() => {
+    setSequence(currentSequence.number)
+  }, [currentSequence])
 
   let inputData = { ...InputField[sequence] }
 
-  const onKeyDown = (ev: { [key: string]: any }, feedback = {}) => {
+  const sendToPusher = (ev: { [key: string]: any }, feedback = {}) => {
     let triggered = pusherInstance
       .channel(user.channelId)
-      .trigger('client-widget-message', {
+      .trigger(WIDGET_MESSAGE_EVENT, {
         channelName: user.channelId,
         feedback,
         message: {
@@ -88,7 +99,7 @@ export const ConversationView: React.FC<{
   }
 
   const onButtonClick = (data: any) => {
-    onKeyDown(data)
+    sendToPusher(data)
   }
 
   const ratingOnClick = (ev: number) => {
@@ -97,7 +108,7 @@ export const ConversationView: React.FC<{
       submitted: true,
       value: ev
     }
-    onKeyDown({ text: `You gave ${ev} stars !!!` }, feedback)
+    sendToPusher({ text: `You gave ${ev} stars !!!` }, feedback)
   }
 
   return (
@@ -111,7 +122,7 @@ export const ConversationView: React.FC<{
             keyProp: inputData.key,
             name: inputData.text,
             text: inputData.text,
-            onKeyDown
+            onKeyDown: sendToPusher
           }}
         />
       )}

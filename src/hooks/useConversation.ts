@@ -1,10 +1,10 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from '.'
+import { fetchConversation } from '../state/thunks/conversationThunk'
 import {
-  fetchConversation,
+  selectConversation,
   resetConversation
-} from '../state/thunks/conversationThunk'
-import { selectConversation } from '../state/reducers/conversationReducer'
+} from '../state/reducers/conversationReducer'
 
 export const useConversation = () => {
   const dispatch = useAppDispatch()

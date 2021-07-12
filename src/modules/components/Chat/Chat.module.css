@@ -1,5 +1,7 @@
 .chatBot {
-  min-height: 400px;
+  height: 400px;
+  margin-top: 10px;
+  overflow: auto;
   position: fixed;
   width: 400px;
   right: 1%;
@@ -13,7 +15,16 @@
 
 .reset {
   position: absolute;
-  bottom: 0;
+  bottom: 0px;
+  line-height: 30px;
+  width: 80%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);  
+}
+
+.loading {
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 10px;
+  padding: 5px;
 }
